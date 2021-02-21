@@ -11,16 +11,17 @@ drop table if exists Company;
 drop table if exists Employee;
 
 /* creates tables for each variable*/
-create table Employee(eID int NOT NULL,
-  name varchar(25) NOT NULL,
+create table Employee(
+  eID int NOT NULL,
+  name varchar(45) NOT NULL,
   startTime time,
   endTime time,
   PRIMARY KEY(eID));
 
 create table Company(
   pID int NOT NULL,
-  position varchar(25) NOT NULL,
-  postionTaken char(3),
+  position varchar(45) NOT NULL,
+  positionTaken char(3),
   directive text,
   PRIMARY KEY(pID));
 
