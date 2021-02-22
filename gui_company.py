@@ -82,7 +82,7 @@ def get():
 
 root = Tk()
 root.geometry("700x500")
-root.title("Managment System")
+root.title("Managment System: Company")
 
 pID = Label(root, text="Enter position ID:", font=('bold',14))
 pID.place(x=20, y=30)

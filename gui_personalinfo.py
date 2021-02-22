@@ -47,7 +47,7 @@ def get():
 
 root = Tk()
 root.geometry("700x500")
-root.title("Managment System")
+root.title("Managment System: Personal Info")
 
 eID = Label(root, text="Enter employee ID:", font=('bold',14))
 eID.place(x=20, y=30)
