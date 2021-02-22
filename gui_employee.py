@@ -125,26 +125,26 @@ e_endTime.place(x=150, y=120)
 
 #insert data into database
 insert = Button(root, text="Insert", font=('italic',10), bg="white", command=insert)
-insert.place(x=20, y=160)
+insert.place(x=20, y=460)
 
 #delete information from database
 delete = Button(root, text="Delete", font=('italic',10), bg="white", command=delete)
-delete.place(x=100, y=160)
+delete.place(x=100, y=460)
 
 #update inforamtion from database
 update = Button(root, text="Update", font=('italic',10), bg="white", command=update)
-update.place(x=180, y=160)
+update.place(x=180, y=460)
 
 #gets information from database
 get = Button(root, text="Get", font=('italic',10), bg="white", command=get)
-get.place(x=260, y=160)
+get.place(x=260, y=460)
 
 #executes company gui table
 openCompany = Button(root, text='Open Comapny Table', font=('italic',10), bg="white", command=UploadCompany)
-openCompany.place(x=340, y=160)
+openCompany.place(x=340, y=460)
 
 #executes personal inforamtion gui table
-openPersonalInfo= Button(root, text='Open Perosnal Info Table', font=('italic',10), bg="white", command=UploadPersonalInfo)
-openPersonalInfo.place(x=500, y=160)
+openPersonalInfo = Button(root, text='Open Perosnal Info Table', font=('italic',10), bg="white", command=UploadPersonalInfo)
+openPersonalInfo.place(x=500, y=460)
 
 root.mainloop()
