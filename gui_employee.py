@@ -2,6 +2,7 @@ import os
 
 import tkinter
 from tkinter import *
+from PIL import ImageTK
 import tkinter.messagebox as MessageBox
 
 import mysql.connector as mysql
@@ -146,5 +147,7 @@ openCompany.place(x=340, y=460)
 #executes personal inforamtion gui table
 openPersonalInfo = Button(root, text='Open Perosnal Info Table', font=('italic',10), bg="white", command=UploadPersonalInfo)
 openPersonalInfo.place(x=500, y=460)
+
+bg_icon=ImageTk.PhotoImage(file="employee.jpg")
 
 root.mainloop()
