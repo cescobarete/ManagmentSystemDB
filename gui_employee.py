@@ -1,18 +1,9 @@
-import os
-
 import tkinter
 from tkinter import *
-from PIL import ImageTK
 import tkinter.messagebox as MessageBox
 
 import mysql.connector as mysql
 from mysql.connector import errorcode
-
-def UploadCompany():
-    os.system("python3 gui_company.py")
-
-def UploadPersonalInfo():
-    os.system("python3 gui_personalinfo.py")
 
 def insert():
     eID = e_eID.get()
@@ -139,15 +130,5 @@ update.place(x=180, y=460)
 #gets information from database
 get = Button(root, text="Get", font=('italic',10), bg="white", command=get)
 get.place(x=260, y=460)
-
-#executes company gui table
-openCompany = Button(root, text='Open Comapny Table', font=('italic',10), bg="white", command=UploadCompany)
-openCompany.place(x=340, y=460)
-
-#executes personal inforamtion gui table
-openPersonalInfo = Button(root, text='Open Perosnal Info Table', font=('italic',10), bg="white", command=UploadPersonalInfo)
-openPersonalInfo.place(x=500, y=460)
-
-bg_icon=ImageTk.PhotoImage(file="employee.jpg")
 
 root.mainloop()
