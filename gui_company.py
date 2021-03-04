@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import *
+from tkinter import ttk
 import tkinter.messagebox as MessageBox
 
 import mysql.connector as mysql
@@ -90,10 +91,10 @@ pID.place(x=20, y=30)
 position = Label(root, text="Enter position:", font=('bold',14))
 position.place(x=20, y=60)
 
-positionTaken = Label(root, text="Position taken?", font=('bold',14))
+positionTaken = Label(root, text="Taken(yes/no)", font=('bold',14))
 positionTaken.place(x=20, y=90)
 
-directive = Label(root, text="Directive?", font=('bold',14))
+directive = Label(root, text="Directive:", font=('bold',14))
 directive.place(x=20, y=120)
 
 p_pID = Entry()
@@ -109,15 +110,34 @@ p_directive = Entry()
 p_directive.place(x=150, y=120)
 
 insert = Button(root, text="Insert", font=('italic',10), bg="white", command=insert)
-insert.place(x=20, y=160)
+insert.place(x=20, y=170)
 
 delete = Button(root, text="Delete", font=('italic',10), bg="white", command=delete)
-delete.place(x=100, y=160)
+delete.place(x=100, y=170)
 
 update = Button(root, text="Update", font=('italic',10), bg="white", command=update)
-update.place(x=180, y=160)
+update.place(x=180, y=170)
 
 get = Button(root, text="Get", font=('italic',10), bg="white", command=get)
-get.place(x=260, y=160)
+get.place(x=260, y=170)
+
+con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+cursor = con.cursor()
+
+trev = ttk.Treeview(columns=(1,2,3,4,5), show="headings", height="13")
+trev.place(x=10, y=220)
+
+trev.heading(1, text="Name")
+trev.heading(2, text="Position ID")
+trev.heading(3, text="Position")
+trev.heading(4, text="Position Taken")
+trev.heading(5, text="Directive")
+
+sql = "SELECT name, Company.pID, position, positionTaken, directive FROM Company, Employee, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID"
+cursor.execute(sql)
+rows = cursor.fetchall()
+
+for i in rows:
+    trev.insert('','end',values=i)
 
 root.mainloop()

@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import *
+from tkinter import ttk
 import tkinter.messagebox as MessageBox
 
 import mysql.connector as mysql
@@ -80,9 +81,29 @@ d_review = Entry()
 d_review.place(x=150, y=150)
 
 update = Button(root, text="Update", font=('italic',10), bg="white", command=update)
-update.place(x=100, y=200)
+update.place(x=20, y=190)
 
 get = Button(root, text="Get", font=('italic',10), bg="white", command=get)
-get.place(x=180, y=200)
+get.place(x=100, y=190)
+
+con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+cursor = con.cursor()
+
+trev = ttk.Treeview(columns=(1,2,3,4,5,6), show="headings", height="13")
+trev.place(x=10, y=220)
+
+trev.heading(1, text="Name")
+trev.heading(2, text="Employee ID")
+trev.heading(3, text="Position ID")
+trev.heading(4, text="Salary")
+trev.heading(5, text="E-mail")
+trev.heading(6, text="Review")
+
+sql = "SELECT name, PersonalInfo.eID, PersonalInfo.pID, yearlySalary, email, review FROM Company, Employee, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID ORDER BY PersonalInfo.eID ASC"
+cursor.execute(sql)
+rows = cursor.fetchall()
+
+for i in rows:
+    trev.insert('','end',values=i)
 
 root.mainloop()
