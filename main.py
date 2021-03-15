@@ -6,13 +6,13 @@ import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 from mysql.connector import errorcode
 
-def insertThree():
+def insertThree(): #insert data into company table
     pID = p_pID.get()
     position = p_position.get()
     positionTaken = p_positionTaken.get()
     directive = p_directive.get()
 
-    if (pID=="" or position=="" or positionTaken=="" or directive==""):
+    if (pID=="" or position=="" or positionTaken=="" or directive==""): #needs these parameters to execute
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -27,8 +27,8 @@ def insertThree():
         MessageBox.showinfo("Insert Status", "Inserted Successfully")
         con.close()
     
-def deleteThree():
-    if(p_pID.get() == ''):
+def deleteThree(): #deletes company table
+    if(p_pID.get() == ''): #if parameter delete the id and inofmation belonging to it
         MessageBox.showinfo("Delete status","Deleted")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -44,13 +44,13 @@ def deleteThree():
         con.close()
 
 
-def updateThree():
+def updateThree(): #updates company table
     pID = p_pID.get()
     position = p_position.get()
     positionTaken = p_positionTaken.get()
     directive = p_directive.get()
 
-    if (pID=="" or position=="" or positionTaken=="" or directive==""):
+    if (pID=="" or position=="" or positionTaken=="" or directive==""): #needs all parameters to update even if all of them are not changed does NOT updates id
         MessageBox.showinfo("Update Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -65,8 +65,8 @@ def updateThree():
         MessageBox.showinfo("Update Status", "Update Successfully")
         con.close()
 
-def getThree():
-    if (p_pID.get() == ""):
+def getThree(): #gets the data fror company table
+    if (p_pID.get() == ""): #needs id to retrieve data, makes it easy to use the other features just by saving time with typing
         MessageBox.showinfo("Fetch Status", "ID field required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -74,7 +74,7 @@ def getThree():
         cursor.execute("SELECT * FROM Company WHERE pID='"+p_pID.get()+"'")
         rows = cursor.fetchall()
 
-        for row in rows:
+        for row in rows: #inserts each parameter into each text input box
             p_position.insert(0, row[1])
             p_positionTaken.insert(0, row[2])
             p_directive.insert(0, row[3])
@@ -82,13 +82,13 @@ def getThree():
         con.close()
 
 
-def insertTwo():
+def insertTwo(): #insert into employee table
     eID = e_eID.get()
     name = e_name.get()
     startTime = e_startTime.get()
     endTime = e_endTime.get()
 
-    if (eID=="" or name=="" or startTime=="" or endTime==""):
+    if (eID=="" or name=="" or startTime=="" or endTime==""): #need all parameters to insert
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -103,8 +103,8 @@ def insertTwo():
         MessageBox.showinfo("Insert Status", "Inserted Successfully")
         con.close()
     
-def deleteTwo():
-    if(e_eID.get() == ''):
+def deleteTwo(): #delete in employee table
+    if(e_eID.get() == ''): #needs id to specify which info is deleted
         MessageBox.showinfo("Delete status","Deleted")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -119,37 +119,30 @@ def deleteTwo():
         MessageBox.showinfo("Delete Status", "Deleted Successfully")
         con.close()
 
-def updateTwo():
-    #grabs information
-    eID = e_eID.get()
+def updateTwo(): #update employee table info
+    eID = e_eID.get() #grabs information
     name = e_name.get()
     startTime = e_startTime.get()
     endTime = e_endTime.get()
-    pID = e_pID.get()
 
-    #needs all fields to be filled or dont execute
-    if (eID=="" or name=="" or startTime=="" or endTime=="" or pID==""):
+    if (eID=="" or name=="" or startTime=="" or endTime==""): #needs all fields to be filled or dont execute
         MessageBox.showinfo("Update Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
         cursor = con.cursor()
         cursor.execute("UPDATE Employee SET name='"+name+"', startTime='"+startTime+"', endTime='"+endTime+"' WHERE eID='"+eID+"'")
         cursor.execute("commit")
-        cursor.execute("UPDATE Company SET pID='"+pID+"' WHERE pID='"+pID+"'")
-        cursor.execute("commit")
 
-        #if duplicate dont update
-        e_eID.delete(0, 'end')
+        e_eID.delete(0, 'end') #if duplicate dont update
         e_name.delete(0, 'end')
         e_startTime.delete(0, 'end')
         e_endTime.delete(0, 'end')
-        e_pID.delete(0, 'end')
 
         MessageBox.showinfo("Update Status", "Update Successfully")
         con.close()
 
-def getTwo():
-    if (e_eID.get() == ""):
+def getTwo(): #gets employee table info
+    if (e_eID.get() == ""): #needs employee id to get info
         MessageBox.showinfo("Fetch Status", "ID field required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -157,21 +150,22 @@ def getTwo():
         cursor.execute("SELECT * FROM Employee WHERE eID='"+e_eID.get()+"'")
         rows = cursor.fetchall()
 
-        for row in rows:
+        for row in rows: #rows are inserted into each text box after the 0 text box that would be eID
             e_name.insert(0, row[1])
             e_startTime.insert(0, row[2])
             e_endTime.insert(0, row[3])
 
         con.close()
 
-def insert():
+def insert(): #inserts into personal info table
     eIDTwo = d_eID.get()
     pIDTwo = d_pID.get()
     yearlySalary = d_yearlySalary.get()
     email = d_email.get()
     review = d_review.get()
 
-    if (eIDTwo=="" or pIDTwo=="" or yearlySalary=="" or email==""):
+    if (eIDTwo=="" or pIDTwo=="" or yearlySalary=="" or email==""): #needs all of these parameters to insert data, the get function 
+                                                                    #makes it easy to retrieve and change if not a lot to change
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -187,7 +181,7 @@ def insert():
         MessageBox.showinfo("Insert Status", "Inserted Successfully")
         con.close()
 
-def update():
+def update(): #update personal info table
     eID = d_eID.get()
     pID = d_pID.get()
     yearlySalary = d_yearlySalary.get()
@@ -199,7 +193,8 @@ def update():
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
         cursor = con.cursor()
-        cursor.execute("UPDATE PersonalInfo SET pID='"+pID+"',yearlySalary='"+yearlySalary+"', email='"+email+"', review='"+review+"' WHERE eID='"+eID+"' AND pID='"+pID+"'")
+        #allows to update pid if employee changes positions but not the employee id
+        cursor.execute("UPDATE PersonalInfo SET pID='"+pID+"',yearlySalary='"+yearlySalary+"', email='"+email+"', review='"+review+"' WHERE eID='"+eID+"' AND pID='"+pID+"'") 
         cursor.execute("commit")
 
         d_eID.delete(0, 'end')
@@ -210,8 +205,8 @@ def update():
         MessageBox.showinfo("Update Status", "Update Successfully")
         con.close()
 
-def get():
-    if (d_eID.get() == "" and d_pID.get() == ""):
+def get(): #retrieves personal info data
+    if (d_eID.get() == "" and d_pID.get() == ""): #needs both employee id and company position id
         MessageBox.showinfo("Fetch Status", "ID fields required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -249,7 +244,7 @@ p2.add(bottom)
 
 left_label = Label(p2, width=55)
 p2.add(left_label)
-
+#start of employee table///////////////////////////////
 #label inserts what the entry does in the program
 eID = Label(top, text="Employee ID:", font=('bold',14))
 eID.place(x=20, y=30)
@@ -279,7 +274,7 @@ e_startTime.place(x=150, y=90)
 e_endTime = Entry(top)
 e_endTime.place(x=150, y=120)
 
-#Start of company
+#Start of company///////////////////////////////////////////////////
 pID = Label(left_label, text="Enter position ID:", font=('bold',14))
 pID.place(x=20, y=30)
 
@@ -304,7 +299,7 @@ p_positionTaken.place(x=150, y=90)
 p_directive = Entry(left_label)
 p_directive.place(x=150, y=120)
 
-#Start of personal info
+#Start of personal info////////////////////////////////////////////
 eIDTwo = Label(bottom, text="Enter employee ID:", font=('bold',14))
 eIDTwo.place(x=20, y=30)
 
@@ -335,6 +330,7 @@ d_email.place(x=150, y=120)
 d_review = Entry(bottom)
 d_review.place(x=150, y=150)
 
+#company table button from here//////////////////////////////////////////////////////////////////////
 insertThree = Button(left_label, text="Insert", font=('italic',10), bg="white", command=insertThree)
 insertThree.place(x=20, y=190)
 
@@ -344,9 +340,11 @@ deleteThree.place(x=80, y=190)
 updateThree = Button(left_label, text="Update", font=('italic',10), bg="white", command=updateThree)
 updateThree.place(x=140, y=190)
 
+#company table button to here//////////////////////////////////////////////////////////////////////
 getThree = Button(left_label, text="Get", font=('italic',10), bg="white", command=getThree)
 getThree.place(x=200, y=190)
 
+#employee table button from here///////////////////////////////////////////////////////////////////
 #insert data into database
 insertTwo = Button(top, text="Insert", font=('italic',10), bg="white", command=insertTwo)
 insertTwo.place(x=20, y=190)
@@ -359,25 +357,29 @@ deleteTwo.place(x=80, y=190)
 updateTwo = Button(top, text="Update", font=('italic',10), bg="white", command=updateTwo)
 updateTwo.place(x=140, y=190)
 
+#employee table button to here///////////////////////////////////////////////////////////////////
 #gets information from database
 getTwo = Button(top, text="Get", font=('italic',10), bg="white", command=getTwo)
 getTwo.place(x=200, y=190)
 
+#personal info table button from here////////////////////////////////////////////////////////////
 insert = Button(bottom, text="Insert", font=('italic',10), bg="white", command=insert)
 insert.place(x=20, y=190)
 
 update = Button(bottom, text="Update", font=('italic',10), bg="white", command=update)
 update.place(x=80, y=190)
 
+#personal info table button to here////////////////////////////////////////////////////////////
 get = Button(bottom, text="Get", font=('italic',10), bg="white", command=get)
 get.place(x=140, y=190)
 
 con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
 cursor = con.cursor()
-
+#database displaying information within gui
 trev = ttk.Treeview(underLeft,columns=(1,2,3,4,5,6,7,8), show="headings", height="20")
 trev.place(x=10, y=10)
 
+#headings for each piece of info displayed
 trev.heading(2, text="Employee ID")
 trev.heading(1, text="Name")
 trev.heading(3, text="Start Time")
@@ -387,6 +389,7 @@ trev.heading(6, text="Position")
 trev.heading(7, text="Salary")
 trev.heading(8, text="E-mail")
 
+#select for info being grabbed from database
 sql = "SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive, review FROM Employee, Company, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID ORDER BY eID ASC"
 cursor.execute(sql)
 rows = cursor.fetchall()
