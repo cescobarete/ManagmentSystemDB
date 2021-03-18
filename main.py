@@ -205,6 +205,23 @@ def update(): #update personal info table
         MessageBox.showinfo("Update Status", "Update Successfully")
         con.close()
 
+def delete(): #delete in employee table
+    if(d_eID.get()=='' and d_pID.get()==''): #needs both id to specify which info is deleted
+        MessageBox.showinfo("Delete status","Deleted")
+    else:
+        con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+        cursor = con.cursor()
+        cursor.execute("DELETE FROM PersonalInfo WHERE eID='"+d_eID.get()+"' and pID='"+d_pID.get()+"'")
+        cursor.execute("commit")
+
+        d_eID.delete(0, 'end')
+        d_pID.delete(0, 'end')
+        d_yearlySalary.delete(0, 'end')
+        d_email.delete(0, 'end')
+        d_review.delete(0, 'end')
+        MessageBox.showinfo("Delete Status", "Deleted Successfully")
+        con.close()
+
 def get(): #retrieves personal info data
     if (d_eID.get() == "" and d_pID.get() == ""): #needs both employee id and company position id
         MessageBox.showinfo("Fetch Status", "ID fields required")
@@ -225,24 +242,27 @@ root = Tk()
 root.geometry("2000x1100")
 root.title("Managment System")
 
+con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+cursor = con.cursor()
+
 #First panel
 p1 = PanedWindow(orient=VERTICAL,bd=4,relief="raised",bg="black", handlesize=100)
 p1.pack(fill=BOTH,expand=1)
 
-underLeft = Label(p1, height=30)
+underLeft = Label(p1, height=25)
 p1.add(underLeft)
 
 #second panel
 p2 = PanedWindow(p1,orient=HORIZONTAL,bd=4,relief="raised",bg="black")
 p1.add(p2)
 
-top = Label(p2,width=55)
+top = Label(p2,width=50)
 p2.add(top)
 
 bottom = Label(p2, width=55)
 p2.add(bottom)
 
-left_label = Label(p2, width=55)
+left_label = Label(p2, width=50)
 p2.add(left_label)
 #start of employee table///////////////////////////////
 #label inserts what the entry does in the program
@@ -344,6 +364,23 @@ updateThree.place(x=140, y=190)
 getThree = Button(left_label, text="Get", font=('italic',10), bg="white", command=getThree)
 getThree.place(x=200, y=190)
 
+#database displaying information within gui
+trevComp = ttk.Treeview(left_label,columns=(1,2,3,4), show="headings", height="20")
+trevComp.place(x=350, y=10)
+
+#headings for each piece of info displayed
+trevComp.heading(1, text="Position ID")
+trevComp.heading(2, text="Position")
+trevComp.heading(3, text="Position Taken")
+trevComp.heading(4, text="Directive")
+
+#select for info being grabbed from database
+cursor.execute("SELECT * FROM Company")
+rows = cursor.fetchall()
+
+for i in rows:
+    trevComp.insert('','end',values=i)
+
 #employee table button from here///////////////////////////////////////////////////////////////////
 #insert data into database
 insertTwo = Button(top, text="Insert", font=('italic',10), bg="white", command=insertTwo)
@@ -362,6 +399,23 @@ updateTwo.place(x=140, y=190)
 getTwo = Button(top, text="Get", font=('italic',10), bg="white", command=getTwo)
 getTwo.place(x=200, y=190)
 
+#database displaying employee information within gui
+trevEmp = ttk.Treeview(top,columns=(1,2,3,4), show="headings", height="20")
+trevEmp.place(x=350, y=10)
+
+#headings for each piece of info displayed
+trevEmp.heading(2, text="Employee ID")
+trevEmp.heading(1, text="Name")
+trevEmp.heading(3, text="Start Time")
+trevEmp.heading(4, text="End Time")
+
+#select for info being grabbed from database
+cursor.execute("SELECT * FROM Employee")
+rows = cursor.fetchall()
+
+for i in rows:
+    trevEmp.insert('','end',values=i)
+
 #personal info table button from here////////////////////////////////////////////////////////////
 insert = Button(bottom, text="Insert", font=('italic',10), bg="white", command=insert)
 insert.place(x=20, y=190)
@@ -369,15 +423,33 @@ insert.place(x=20, y=190)
 update = Button(bottom, text="Update", font=('italic',10), bg="white", command=update)
 update.place(x=80, y=190)
 
+delete = Button(bottom, text="Delete", font=('italic',10), bg="white", command=delete)
+delete.place(x=140, y=190)
+
 #personal info table button to here////////////////////////////////////////////////////////////
 get = Button(bottom, text="Get", font=('italic',10), bg="white", command=get)
-get.place(x=140, y=190)
+get.place(x=200, y=190)
 
-con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
-cursor = con.cursor()
 #database displaying information within gui
-trev = ttk.Treeview(underLeft,columns=(1,2,3,4,5,6,7,8), show="headings", height="20")
-trev.place(x=10, y=10)
+trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5), show="headings", height="20")
+trevPI.place(x=350, y=10)
+
+#headings for each piece of info displayed
+trevPI.heading(1, text="Employee ID")
+trevPI.heading(2, text="Position ID")
+trevPI.heading(3, text="Salary")
+trevPI.heading(4, text="E-mail")
+trevPI.heading(5, text="Review")
+
+#select for info being grabbed from database
+cursor.execute("SELECT * FROM PersonalInfo")
+rows = cursor.fetchall()
+
+for i in rows:
+    trevPI.insert('','end',values=i)
+
+#database displaying information within gui
+trev = ttk.Treeview(underLeft,columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="20")
 
 #headings for each piece of info displayed
 trev.heading(2, text="Employee ID")
@@ -388,13 +460,27 @@ trev.heading(5, text="Position ID")
 trev.heading(6, text="Position")
 trev.heading(7, text="Salary")
 trev.heading(8, text="E-mail")
+trev.heading(9, text="Directive")
+trev.heading(10, text="Review")
 
 #select for info being grabbed from database
 sql = "SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive, review FROM Employee, Company, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID ORDER BY eID ASC"
-cursor.execute(sql)
+cursor.execute("SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive, review FROM Employee, Company, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID ORDER BY eID ASC")
 rows = cursor.fetchall()
 
 for i in rows:
     trev.insert('','end',values=i)
+
+hsb = ttk.Scrollbar(underLeft,orient="horizontal")
+hsb.configure(command=trev.xview)
+trev.configure(xscrollcommand=hsb.set)
+hsb.pack(fill=X,side=BOTTOM)
+
+hsb2 = ttk.Scrollbar(underLeft,orient="vertical")
+hsb2.configure(command=trev.yview)
+trev.configure(yscrollcommand=hsb2.set)
+hsb2.pack(fill=Y,side=RIGHT)
+
+trev.pack()
 
 root.mainloop()
