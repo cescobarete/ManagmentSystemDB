@@ -1,43 +1,54 @@
 import tkinter as tk
 from tkinter import *
 
+import os
+import tkinter.messagebox as MessageBox
+import mysql.connector as mysql
 
-master = tk.Tk()
-master.title('Desktop Application')
-master.geometry("300x400")
-
-
-class Username:
-    usernameLabel = Label(master, text="username").grid(row=1, column=0)
-    usernameTextbox = tk.StringVar()
-    nameEntered = Entry(master, width=30, textvariable=usernameTextbox).grid(row=1, column=1)
-
-
-class Password:
-    passwordLabel = Label(master, text="password").grid(row=2, column=0)
-    passwordTextbox = tk.StringVar()
-    passwordEntered = Entry(master, show="*", textvariable=passwordTextbox, width=30).grid(row=2, column=1)
+root = tk.Tk()
+root.title('Desktop Application')
+root.geometry("300x400")
 
 
 def login():
-    print(Username.usernameTextbox.get() + Password.passwordTextbox.get())
+    con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+    cursor = con.cursor()
+
+    # trying to check conditions with this
+    #if e_eID.get() == cursor.execute("SELECT * FROM Employee WHERE eID='" + e_eID.get() + "'"):
+    #    os.system("python3 main.py")
+    #else:
+    #    MessageBox.showinfo("Login Failed", "Enter valid login information")
 
 
-passwordCheckbox = IntVar()
+    # works but doesnt check conditions
+    if e_eID.get() == "" or e_name.get() == "":
+        MessageBox.showinfo("Login Failed", "Enter valid login information")
+    else:
+        os.system("python3 ManagmentSystemDB/main.py")
 
 
-def reveal():
-    if passwordCheckbox.get() == 1:
-        Password.passwordEntered = Entry(master, text=Password.passwordTextbox.get(), width=30).grid(row=2, column=1)
 
-    elif passwordCheckbox.get() == 0:
-        Password.passwordEntered = Entry(master, text=Password.passwordTextbox.get(), show="*", width=30).\
-            grid(row=2, column=1)
+# label inserts what the entry does in the program
+eID = Label(root, text="Employee ID:", font=('bold',14))
+eID.place(x=20, y=30)
 
+name = Label(root, text="Name:", font=('bold', 14))
+name.place(x=20, y=60)
 
-checkButton = Checkbutton(master, text="show password", variable=passwordCheckbox, onvalue=1, offvalue=0,
-                          command=reveal).grid(column=1)
-loginButton = Button(master, text="Login", command=login).grid(column=1, pady=4)
+#entry and placement for employee ID variable in database
+e_eID = Entry()
+e_eID.place(x=150, y=30)
 
+#entry and placement for name variable in database
+e_name = Entry()
+e_name.place(x=150, y=60)
 
-master.mainloop()
+loginButton = Button(root, text="Login", command=login)
+loginButton.place(x=130, y=100)
+
+#executes employee gui table
+openEmployee = Button(root, text='Employee Schedule', font=('italic', 30), bg="white", command=login)
+openEmployee.place(x=10, y=400)
+
+root.mainloop()

@@ -42,16 +42,16 @@ insert into Employee values(1004, 'Ada Lovelace', '08:00:00', '16:00:00');
 
 /* insert table into Company table*/
 insert into Company values(1, 'Developer', 'yes','Create a project that will change the world');
-insert into Company values(2, 'Developer', 'yes','Create a porject that will change the world');
+insert into Company values(2, 'Developer', 'yes','Create a project that will change the world');
 insert into Company values(3, 'Help Desk', 'yes','Answer the phone');
-insert into Company values(4, 'Senior Devloper', 'yes','Create a porject that will chnage the world');
+insert into Company values(4, 'Senior Developer', 'yes','Create a project that will change the world');
 insert into Company values(5, 'Manager', 'yes','Manage the employees and make sure things get done');
 insert into Company values(6, 'Developer', 'no', NULL);
 insert into Company values(7, 'Information Technology', 'no', NULL);
 
 /* insert table data PersonalInfo into table*/
 insert into PersonalInfo values(1000, 1, 50000, 'cescobarete@business.com', 'A terrible employee');
-insert into PersonalInfo values(1001, 5, 70000, 'jsmith@business.com', 'Exemplory employee');
+insert into PersonalInfo values(1001, 5, 70000, 'jsmith@business.com', 'Exemplary employee');
 insert into PersonalInfo values(1002, 3, 30000, 'dmartinez@business.com', 'Does not work well with others');
 insert into PersonalInfo values(1003, 4, 80000, 'lvazquez@business.com', 'Smiles all the time');
 insert into PersonalInfo values(1004, 2, 50000, 'alovelace@business.com', 'Sketchy');
