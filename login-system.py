@@ -6,8 +6,8 @@ import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 
 root = tk.Tk()
-root.title('Desktop Application')
-root.geometry("300x400")
+root.title('Login System')
+root.geometry("400x300")
 
 
 def login():
@@ -25,9 +25,7 @@ def login():
     if e_eID.get() == "" or e_name.get() == "":
         MessageBox.showinfo("Login Failed", "Enter valid login information")
     else:
-        os.system("python3 ManagmentSystemDB/main.py")
-
-
+        os.system("python3 main.py")
 
 # label inserts what the entry does in the program
 eID = Label(root, text="Employee ID:", font=('bold',14))
@@ -45,7 +43,7 @@ e_name = Entry()
 e_name.place(x=150, y=60)
 
 loginButton = Button(root, text="Login", command=login)
-loginButton.place(x=130, y=100)
+loginButton.place(x=20, y=100)
 
 #executes employee gui table
 openEmployee = Button(root, text='Employee Schedule', font=('italic', 30), bg="white", command=login)

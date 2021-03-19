@@ -264,7 +264,7 @@ p2.add(bottom)
 
 left_label = Label(p2, width=50)
 p2.add(left_label)
-#start of employee table///////////////////////////////
+#start of employee lable and entries===============================
 #label inserts what the entry does in the program
 eID = Label(top, text="Employee ID:", font=('bold',14))
 eID.place(x=20, y=30)
@@ -293,8 +293,9 @@ e_startTime.place(x=150, y=90)
 #entry and placement for endTime variable in database
 e_endTime = Entry(top)
 e_endTime.place(x=150, y=120)
+#end of entry and labels for employee tables==================
 
-#Start of company///////////////////////////////////////////////////
+#Start of company table entried and labels====================
 pID = Label(left_label, text="Enter position ID:", font=('bold',14))
 pID.place(x=20, y=30)
 
@@ -318,8 +319,9 @@ p_positionTaken.place(x=150, y=90)
 
 p_directive = Entry(left_label)
 p_directive.place(x=150, y=120)
+#end of company table entryies and labels==========================
 
-#Start of personal info////////////////////////////////////////////
+#Start of personal info entries and labels=========================
 eIDTwo = Label(bottom, text="Enter employee ID:", font=('bold',14))
 eIDTwo.place(x=20, y=30)
 
@@ -349,8 +351,9 @@ d_email.place(x=150, y=120)
 
 d_review = Entry(bottom)
 d_review.place(x=150, y=150)
+#end of personal info entries and labels=========================
 
-#company table button from here//////////////////////////////////////////////////////////////////////
+#start of company table button from here==================================
 insertThree = Button(left_label, text="Insert", font=('italic',10), bg="white", command=insertThree)
 insertThree.place(x=20, y=190)
 
@@ -360,11 +363,11 @@ deleteThree.place(x=80, y=190)
 updateThree = Button(left_label, text="Update", font=('italic',10), bg="white", command=updateThree)
 updateThree.place(x=140, y=190)
 
-#company table button to here//////////////////////////////////////////////////////////////////////
 getThree = Button(left_label, text="Get", font=('italic',10), bg="white", command=getThree)
 getThree.place(x=200, y=190)
+#end company table button to here========================================
 
-#database displaying information within gui
+#company table displaying information within gui
 trevComp = ttk.Treeview(left_label,columns=(1,2,3,4), show="headings", height="20")
 trevComp.place(x=350, y=10)
 
@@ -381,7 +384,7 @@ rows = cursor.fetchall()
 for i in rows:
     trevComp.insert('','end',values=i)
 
-#employee table button from here///////////////////////////////////////////////////////////////////
+#start of employee table buttons from here=========================
 #insert data into database
 insertTwo = Button(top, text="Insert", font=('italic',10), bg="white", command=insertTwo)
 insertTwo.place(x=20, y=190)
@@ -394,12 +397,12 @@ deleteTwo.place(x=80, y=190)
 updateTwo = Button(top, text="Update", font=('italic',10), bg="white", command=updateTwo)
 updateTwo.place(x=140, y=190)
 
-#employee table button to here///////////////////////////////////////////////////////////////////
 #gets information from database
 getTwo = Button(top, text="Get", font=('italic',10), bg="white", command=getTwo)
 getTwo.place(x=200, y=190)
+#employee table button to here====================================
 
-#database displaying employee information within gui
+#employee table displaying employee information within gui
 trevEmp = ttk.Treeview(top,columns=(1,2,3,4), show="headings", height="20")
 trevEmp.place(x=350, y=10)
 
@@ -416,7 +419,7 @@ rows = cursor.fetchall()
 for i in rows:
     trevEmp.insert('','end',values=i)
 
-#personal info table button from here////////////////////////////////////////////////////////////
+#start of personal info table button from here=======================================
 insert = Button(bottom, text="Insert", font=('italic',10), bg="white", command=insert)
 insert.place(x=20, y=190)
 
@@ -426,11 +429,11 @@ update.place(x=80, y=190)
 delete = Button(bottom, text="Delete", font=('italic',10), bg="white", command=delete)
 delete.place(x=140, y=190)
 
-#personal info table button to here////////////////////////////////////////////////////////////
 get = Button(bottom, text="Get", font=('italic',10), bg="white", command=get)
 get.place(x=200, y=190)
+#end of personal info table button from here=======================================
 
-#database displaying information within gui
+#personal info table displaying information within gui
 trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5), show="headings", height="20")
 trevPI.place(x=350, y=10)
 
@@ -452,8 +455,8 @@ for i in rows:
 trev = ttk.Treeview(underLeft,columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="20")
 
 #headings for each piece of info displayed
-trev.heading(2, text="Employee ID")
 trev.heading(1, text="Name")
+trev.heading(2, text="Employee ID")
 trev.heading(3, text="Start Time")
 trev.heading(4, text="End Time")
 trev.heading(5, text="Position ID")
@@ -464,7 +467,6 @@ trev.heading(9, text="Directive")
 trev.heading(10, text="Review")
 
 #select for info being grabbed from database
-sql = "SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive, review FROM Employee, Company, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID ORDER BY eID ASC"
 cursor.execute("SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive, review FROM Employee, Company, PersonalInfo WHERE Employee.eID = PersonalInfo.eID AND Company.pID = PersonalInfo.pID ORDER BY eID ASC")
 rows = cursor.fetchall()
 
@@ -476,10 +478,10 @@ hsb.configure(command=trev.xview)
 trev.configure(xscrollcommand=hsb.set)
 hsb.pack(fill=X,side=BOTTOM)
 
-hsb2 = ttk.Scrollbar(underLeft,orient="vertical")
-hsb2.configure(command=trev.yview)
-trev.configure(yscrollcommand=hsb2.set)
-hsb2.pack(fill=Y,side=RIGHT)
+hsb = ttk.Scrollbar(underLeft,orient="vertical")
+hsb.configure(command=trev.yview)
+trev.configure(yscrollcommand=hsb.set)
+hsb.pack(fill=Y,side=RIGHT)
 
 trev.pack()
 
