@@ -36,11 +36,11 @@ def login():
     }
 
     if e_eID.get() == "" or e_name.get() == "":
-        MessageBox.showinfo("Login Failed", "Enter both username and password")
+        MessageBox.showinfo("Login Failed", "Enter both username/password")
     else:
         res = user_login(data)
         if res:
-            MessageBox.showinfo("Login", "Login Succesfull")
+            MessageBox.showinfo("Login", "Login Successful")
             os.system("python3 main.py")
         else:
             MessageBox.showinfo("Alert", "Wrong username/password")
