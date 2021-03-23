@@ -2,13 +2,24 @@ import tkinter as tk
 from tkinter import *
 
 import os
+
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 
 root = tk.Tk()
 root.title('Login System')
 root.geometry("400x300")
+root.resizable(False,False)
 
+con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+cursor = con.cursor()
+
+def user_login(tup):
+    try:
+        cursor.execute("SELECT * FROM Employee WHERE eID='"+e_eID.get()+"' AND name='"+e_name.get()+"'")
+        return(cursor.fetchone())
+    except:
+        return False
 
 def login():
     con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -19,13 +30,21 @@ def login():
     #    os.system("python3 main.py")
     #else:
     #    MessageBox.showinfo("Login Failed", "Enter valid login information")
+    data = {
+        e_eID.get(),
+        e_name.get()
+    }
 
-
-    # works but doesnt check conditions
     if e_eID.get() == "" or e_name.get() == "":
-        MessageBox.showinfo("Login Failed", "Enter valid login information")
+        MessageBox.showinfo("Login Failed", "Enter both username and password")
     else:
-        os.system("python3 main.py")
+        res = user_login(data)
+        if res:
+            MessageBox.showinfo("Login", "Login Succesfull")
+            os.system("python3 main.py")
+        else:
+            MessageBox.showinfo("Alert", "Wrong username/password")
+
 
 # label inserts what the entry does in the program
 eID = Label(root, text="Employee ID:", font=('bold',14))
