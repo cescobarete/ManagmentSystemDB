@@ -6,6 +6,24 @@ import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 from mysql.connector import errorcode
 
+con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+cursor = con.cursor()
+
+fd = open('managmentDatabase.sql', 'r')
+sqlFile = fd.read()
+fd.close()
+sqlCommands = sqlFile.split(';')
+
+for command in sqlCommands:
+    try:
+        if command.strip() != '':
+            cursor.execute(command)
+    except IOError:
+        print ("Command skipped: ", msg)
+
+executeScriptsFromFile('/Users/cescobarete/Documents/Spring2021/CAPSTONE/ManagmentSystemDB')
+con.commit()
+
 def insertThree(): #insert data into company table
     pID = p_pID.get()
     position = p_position.get()

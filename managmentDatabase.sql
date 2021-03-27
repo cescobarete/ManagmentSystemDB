@@ -21,6 +21,7 @@ create table Employee(
 create table Company(
   pID int NOT NULL,
   position varchar(45) NOT NULL,
+  privilege char(25) NOT NULL,
   positionTaken char(3),
   directive text,
   PRIMARY KEY(pID));
@@ -41,13 +42,13 @@ insert into Employee values(1003, 'Luis Vazquez', '08:00:00', '16:00:00');
 insert into Employee values(1004, 'Ada Lovelace', '08:00:00', '16:00:00');
 
 /* insert table into Company table*/
-insert into Company values(1, 'Developer', 'yes','Create a project that will change the world');
-insert into Company values(2, 'Developer', 'yes','Create a project that will change the world');
-insert into Company values(3, 'Help Desk', 'yes','Answer the phone');
-insert into Company values(4, 'Senior Developer', 'yes','Create a project that will change the world');
-insert into Company values(5, 'Manager', 'yes','Manage the employees and make sure things get done');
-insert into Company values(6, 'Developer', 'no', NULL);
-insert into Company values(7, 'Information Technology', 'no', NULL);
+insert into Company values(1, 'Developer','denied','yes','Create a project that will change the world');
+insert into Company values(2, 'Developer','denied','yes','Create a project that will change the world');
+insert into Company values(3, 'Help Desk','denied','yes','Answer the phone');
+insert into Company values(4, 'Senior Developer','denied','yes','Create a project that will change the world');
+insert into Company values(5, 'Manager','granted','yes','Manage the employees and make sure things get done');
+insert into Company values(6, 'Developer','denied','no', NULL);
+insert into Company values(7, 'Information Technology','denied','no', NULL);
 
 /* insert table data PersonalInfo into table*/
 insert into PersonalInfo values(1000, 1, 50000, 'cescobarete@business.com', 'A terrible employee');
