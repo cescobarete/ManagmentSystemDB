@@ -42,7 +42,7 @@ def login():
             root.title("User Information")
 
             #database displaying information within gui
-            trev = ttk.Treeview(root,columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="1")
+            trev = ttk.Treeview(root,columns=(1,2,3,4,5,6,7,8,9), show="headings", height="1")
 
             #headings for each piece of info displayed
             trev.heading(1, text="Name")
@@ -54,10 +54,9 @@ def login():
             trev.heading(7, text="Salary")
             trev.heading(8, text="E-mail")
             trev.heading(9, text="Directive")
-            trev.heading(10, text="Review")
 
             #select for info being grabbed from database
-            cursor.execute("SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive, review FROM Employee INNER JOIN PersonalInfo ON Employee.eID = PersonalInfo.eID INNER JOIN Company ON PersonalInfo.pID = Company.pID WHERE Employee.eID = '"+e_eID.get()+"' AND Employee.name = '"+e_name.get()+"'")
+            cursor.execute("SELECT name, Employee.eID, startTime, endTime, Company.pID, position, yearlySalary, email, directive FROM Employee INNER JOIN PersonalInfo ON Employee.eID = PersonalInfo.eID INNER JOIN Company ON PersonalInfo.pID = Company.pID WHERE Employee.eID = '"+e_eID.get()+"' AND Employee.name = '"+e_name.get()+"'")
             rows = cursor.fetchall()
 
             for i in rows:

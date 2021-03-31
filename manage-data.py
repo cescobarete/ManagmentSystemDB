@@ -12,19 +12,21 @@ cursor = con.cursor()
 def insertThree(): #insert data into company table
     pID = p_pID.get()
     position = p_position.get()
+    privilege = p_privilege.get()
     positionTaken = p_positionTaken.get()
     directive = p_directive.get()
 
-    if (pID=="" or position=="" or positionTaken=="" or directive==""): #needs these parameters to execute
+    if (pID=="" or position=="" or positionTaken=="" or directive=="" or privilege==""): #needs these parameters to execute
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
         cursor = con.cursor()
-        cursor.execute("INSERT INTO Company VALUES('"+pID+"','"+position+"','"+positionTaken+"','"+directive+"')")
+        cursor.execute("INSERT INTO Company VALUES('"+pID+"','"+position+"','"+privilege+"','"+positionTaken+"','"+directive+"')")
         cursor.execute("commit")
 
         p_pID.delete(0, 'end')
         p_position.delete(0, 'end')
+        p_privilege.delete(0, 'end')
         p_positionTaken.delete(0, 'end')
         p_directive.delete(0, 'end')
         MessageBox.showinfo("Insert Status", "Inserted Successfully")
@@ -41,6 +43,7 @@ def deleteThree(): #deletes company table
 
         p_pID.delete(0, 'end')
         p_position.delete(0, 'end')
+        p_privilege.delete(0, 'end')
         p_positionTaken.delete(0, 'end')
         p_directive.delete(0, 'end')
         MessageBox.showinfo("Delete Status", "Deleted Successfully")
@@ -50,10 +53,11 @@ def deleteThree(): #deletes company table
 def updateThree(): #updates company table
     pID = p_pID.get()
     position = p_position.get()
+    privilege = p_privilege.get()
     positionTaken = p_positionTaken.get()
     directive = p_directive.get()
 
-    if (pID=="" or position=="" or positionTaken=="" or directive==""): #needs all parameters to update even if all of them are not changed does NOT updates id
+    if (pID=="" or position=="" or positionTaken=="" or directive=="" or privilege==""): #needs all parameters to update even if all of them are not changed does NOT updates id
         MessageBox.showinfo("Update Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -63,6 +67,7 @@ def updateThree(): #updates company table
 
         p_pID.delete(0, 'end')
         p_position.delete(0, 'end')
+        p_privilege.delete(0, 'end')
         p_positionTaken.delete(0, 'end')
         p_directive.delete(0, 'end')
         MessageBox.showinfo("Update Status", "Update Successfully")
@@ -79,8 +84,9 @@ def getThree(): #gets the data fror company table
 
         for row in rows: #inserts each parameter into each text input box
             p_position.insert(0, row[1])
-            p_positionTaken.insert(0, row[2])
-            p_directive.insert(0, row[3])
+            p_privilege.insert(0, row[2])
+            p_positionTaken.insert(0, row[3])
+            p_directive.insert(0, row[4])
 
         con.close()
 
@@ -305,6 +311,9 @@ pID.place(x=20, y=30)
 position = Label(left_label, text="Enter position:", font=('bold',14))
 position.place(x=20, y=60)
 
+privilege = Label(left_label, text="Enter privilege:", font=('bold',14))
+privilege.place(x=20, y=150)
+
 positionTaken = Label(left_label, text="Taken(yes/no):", font=('bold',14))
 positionTaken.place(x=20, y=90)
 
@@ -316,6 +325,9 @@ p_pID.place(x=150, y=30)
 
 p_position = Entry(left_label)
 p_position.place(x=150, y=60)
+
+p_privilege = Entry(left_label)
+p_privilege.place(x=150, y=150)
 
 p_positionTaken = Entry(left_label)
 p_positionTaken.place(x=150, y=90)
@@ -356,6 +368,28 @@ d_review = Entry(bottom)
 d_review.place(x=150, y=150)
 #end of personal info entries and labels=========================
 
+def company_tree():
+    left_label = Tk()
+    left_label.geometry("200x1100")
+    left_label.title("Company Database")
+    #company table displaying information within gui
+    trevComp = ttk.Treeview(left_label,columns=(1,2,3,4,5), show="headings", height="20")
+    trevComp.pack()
+
+    #headings for each piece of info displayed
+    trevComp.heading(1, text="Position ID")
+    trevComp.heading(2, text="Position")
+    trevComp.heading(3, text="Privilege")
+    trevComp.heading(4, text="Position Taken")
+    trevComp.heading(5, text="Directive")
+
+    #select for info being grabbed from database
+    cursor.execute("SELECT * FROM Company")
+    rows = cursor.fetchall()
+
+    for i in rows:
+        trevComp.insert('','end',values=i)
+
 #start of company table button from here==================================
 insertThree = Button(left_label, text="Insert", font=('italic',10), bg="white", command=insertThree)
 insertThree.place(x=20, y=190)
@@ -368,24 +402,30 @@ updateThree.place(x=140, y=190)
 
 getThree = Button(left_label, text="Get", font=('italic',10), bg="white", command=getThree)
 getThree.place(x=200, y=190)
+
+getCompany = Button(left_label, text="Company Data", font=('italic',10), bg="white", command=company_tree)
+getCompany.place(x=240, y=190)
 #end company table button to here========================================
 
-#company table displaying information within gui
-trevComp = ttk.Treeview(left_label,columns=(1,2,3,4), show="headings", height="20")
-trevComp.place(x=350, y=10)
+#employee table displaying employee information within gui
+def employee_db():
+    top = Tk()
+    top.title("Employee Database")
+    trevEmp = ttk.Treeview(top,columns=(1,2,3,4), show="headings", height="20")
+    trevEmp.pack()
 
-#headings for each piece of info displayed
-trevComp.heading(1, text="Position ID")
-trevComp.heading(2, text="Position")
-trevComp.heading(3, text="Position Taken")
-trevComp.heading(4, text="Directive")
+    #headings for each piece of info displayed
+    trevEmp.heading(2, text="Employee ID")
+    trevEmp.heading(1, text="Name")
+    trevEmp.heading(3, text="Start Time")
+    trevEmp.heading(4, text="End Time")
 
-#select for info being grabbed from database
-cursor.execute("SELECT * FROM Company")
-rows = cursor.fetchall()
+    #select for info being grabbed from database
+    cursor.execute("SELECT * FROM Employee")
+    rows = cursor.fetchall()
 
-for i in rows:
-    trevComp.insert('','end',values=i)
+    for i in rows:
+        trevEmp.insert('','end',values=i)
 
 #start of employee table buttons from here=========================
 #insert data into database
@@ -403,24 +443,31 @@ updateTwo.place(x=140, y=190)
 #gets information from database
 getTwo = Button(top, text="Get", font=('italic',10), bg="white", command=getTwo)
 getTwo.place(x=200, y=190)
+
+getEmployee = Button(top, text="Employee Data", font=('italic',10), bg="white", command=employee_db)
+getEmployee.place(x=240, y=190)
 #employee table button to here====================================
 
-#employee table displaying employee information within gui
-trevEmp = ttk.Treeview(top,columns=(1,2,3,4), show="headings", height="20")
-trevEmp.place(x=350, y=10)
+def pi_tree():
+    bottom = Tk()
+    bottom.title("Perosnal Information Database")
+    #personal info table displaying information within gui
+    trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5), show="headings", height="20")
+    trevPI.pack()
 
-#headings for each piece of info displayed
-trevEmp.heading(2, text="Employee ID")
-trevEmp.heading(1, text="Name")
-trevEmp.heading(3, text="Start Time")
-trevEmp.heading(4, text="End Time")
+    #headings for each piece of info displayed
+    trevPI.heading(1, text="Employee ID")
+    trevPI.heading(2, text="Position ID")
+    trevPI.heading(3, text="Salary")
+    trevPI.heading(4, text="E-mail")
+    trevPI.heading(5, text="Review")
 
-#select for info being grabbed from database
-cursor.execute("SELECT * FROM Employee")
-rows = cursor.fetchall()
+    #select for info being grabbed from database
+    cursor.execute("SELECT * FROM PersonalInfo")
+    rows = cursor.fetchall()
 
-for i in rows:
-    trevEmp.insert('','end',values=i)
+    for i in rows:
+        trevPI.insert('','end',values=i)
 
 #start of personal info table button from here=======================================
 insert = Button(bottom, text="Insert", font=('italic',10), bg="white", command=insert)
@@ -434,25 +481,10 @@ delete.place(x=140, y=190)
 
 get = Button(bottom, text="Get", font=('italic',10), bg="white", command=get)
 get.place(x=200, y=190)
+
+getPI = Button(bottom, text="Personal Info Data", font=('italic',10), bg="white", command=pi_tree)
+getPI.place(x=240, y=190)
 #end of personal info table button from here=======================================
-
-#personal info table displaying information within gui
-trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5), show="headings", height="20")
-trevPI.place(x=350, y=10)
-
-#headings for each piece of info displayed
-trevPI.heading(1, text="Employee ID")
-trevPI.heading(2, text="Position ID")
-trevPI.heading(3, text="Salary")
-trevPI.heading(4, text="E-mail")
-trevPI.heading(5, text="Review")
-
-#select for info being grabbed from database
-cursor.execute("SELECT * FROM PersonalInfo")
-rows = cursor.fetchall()
-
-for i in rows:
-    trevPI.insert('','end',values=i)
 
 #database displaying information within gui
 trev = ttk.Treeview(underLeft,columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="20")
