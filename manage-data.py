@@ -96,19 +96,35 @@ def insertTwo(): #insert into employee table
     name = e_name.get()
     startTime = e_startTime.get()
     endTime = e_endTime.get()
+    schedule_create = e_schedule_create.get()
+    mon = e_mon.get()
+    tue = e_tue.get()
+    wed = e_wed.get()
+    thur = e_thur.get()
+    fri = e_fri.get()
+    sat = e_sat.get()
+    sun = e_sun.get()
 
-    if (eID=="" or name=="" or startTime=="" or endTime==""): #need all parameters to insert
+    if (eID=="" or name==""): #need all parameters to insert
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
         cursor = con.cursor()
-        cursor.execute("INSERT INTO Employee VALUES('"+eID+"','"+name+"','"+startTime+"','"+endTime+"')")
+        cursor.execute("INSERT INTO Employee VALUES('"+eID+"','"+name+"','"+startTime+"','"+endTime+"','"+schedule_create+"','"+mon+"','"+tue+"','"+wed+"','"+thur+"','"+fri+"','"+sat+"','"+sun+"')")
         cursor.execute("commit")
 
         e_eID.delete(0, 'end')
         e_name.delete(0, 'end')
         e_startTime.delete(0, 'end')
         e_endTime.delete(0, 'end')
+        e_schedule_create.delete(0, 'end')
+        e_mon.delete(0, 'end')
+        e_tue.delete(0, 'end')
+        e_wed.delete(0, 'end')
+        e_thur.delete(0, 'end')
+        e_fri.delete(0, 'end')
+        e_sat.delete(0, 'end')
+        e_sun.delete(0, 'end')
         MessageBox.showinfo("Insert Status", "Inserted Successfully")
         con.close()
     
@@ -125,6 +141,14 @@ def deleteTwo(): #delete in employee table
         e_name.delete(0, 'end')
         e_startTime.delete(0, 'end')
         e_endTime.delete(0, 'end')
+        e_schedule_create.delete(0, 'end')
+        e_mon.delete(0, 'end')
+        e_tue.delete(0, 'end')
+        e_wed.delete(0, 'end')
+        e_thur.delete(0, 'end')
+        e_fri.delete(0, 'end')
+        e_sat.delete(0, 'end')
+        e_sun.delete(0, 'end')
         MessageBox.showinfo("Delete Status", "Deleted Successfully")
         con.close()
 
@@ -133,8 +157,16 @@ def updateTwo(): #update employee table info
     name = e_name.get()
     startTime = e_startTime.get()
     endTime = e_endTime.get()
+    schedule_create = e_schedule_create.get()
+    mon = e_mon.get()
+    tue = e_tue.get()
+    wed = e_wed.get()
+    thur = e_thur.get()
+    fri = e_fri.get()
+    sat = e_sat.get()
+    sun = e_sun.get()
 
-    if (eID=="" or name=="" or startTime=="" or endTime==""): #needs all fields to be filled or dont execute
+    if (eID=="" or name=="" or startTime=="" or endTime=="" or schedule_create=="" or mon=="" or tue=="" or wed=="" or thur=="" or fri=="" or sat=="" or sun==""): #needs all fields to be filled or dont execute
         MessageBox.showinfo("Update Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -146,6 +178,14 @@ def updateTwo(): #update employee table info
         e_name.delete(0, 'end')
         e_startTime.delete(0, 'end')
         e_endTime.delete(0, 'end')
+        e_schedule_create.delete(0, 'end')
+        e_mon.delete(0, 'end')
+        e_tue.delete(0, 'end')
+        e_wed.delete(0, 'end')
+        e_thur.delete(0, 'end')
+        e_fri.delete(0, 'end')
+        e_sat.delete(0, 'end')
+        e_sun.delete(0, 'end')
 
         MessageBox.showinfo("Update Status", "Update Successfully")
         con.close()
@@ -163,6 +203,14 @@ def getTwo(): #gets employee table info
             e_name.insert(0, row[1])
             e_startTime.insert(0, row[2])
             e_endTime.insert(0, row[3])
+            e_schedule_create.insert(0, row[4])
+            e_mon.insert(0, row[5])
+            e_tue.insert(0, row[6])
+            e_wed.insert(0, row[7])
+            e_thur.insert(0, row[8])
+            e_fri.insert(0, row[9])
+            e_sat.insert(0, row[10])
+            e_sun.insert(0, row[11])
 
         con.close()
 
@@ -171,21 +219,31 @@ def insert(): #inserts into personal info table
     pIDTwo = d_pID.get()
     yearlySalary = d_yearlySalary.get()
     email = d_email.get()
+    phone = d_phone.get()
+    ssn = d_ssn.get()
+    city = d_city.get()
+    adr = d_adr.get()
+    zip = d_zip.get()
     review = d_review.get()
 
-    if (eIDTwo=="" or pIDTwo=="" or yearlySalary=="" or email==""): #needs all of these parameters to insert data, the get function 
-                                                                    #makes it easy to retrieve and change if not a lot to change
+    if (eIDTwo=="" or pIDTwo=="" or yearlySalary=="" or email=="" or phone=="" or ssn=="" or city=="" or adr=="" or zip==""): #needs all of these parameters to insert data, the get function 
+        #makes it easy to retrieve and change if not a lot to change
         MessageBox.showinfo("Insert Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
         cursor = con.cursor()
-        cursor.execute("INSERT INTO PersonalInfo VALUES('"+eIDTwo+"','"+pIDTwo+"','"+yearlySalary+"','"+email+"','"+review+"')")
+        cursor.execute("INSERT INTO PersonalInfo VALUES('"+eIDTwo+"','"+pIDTwo+"','"+yearlySalary+"','"+email+"','"+phone+"','"+ssn+"','"+city+"','"+adr+"','"+zip+"','"+review+"')")
         cursor.execute("commit")
 
         d_eID.delete(0, 'end')
         d_pID.delete(0, 'end')
         d_yearlySalary.delete(0, 'end')
         d_email.delete(0, 'end')
+        d_phone.delete(0, 'end')
+        d_ssn.delete(0, 'end')
+        d_city.delete(0, 'end')
+        d_adr.delete(0, 'end')
+        d_zip.delete(0, 'end')
         d_review.delete(0, 'end')
         MessageBox.showinfo("Insert Status", "Inserted Successfully")
         con.close()
@@ -195,9 +253,14 @@ def update(): #update personal info table
     pID = d_pID.get()
     yearlySalary = d_yearlySalary.get()
     email = d_email.get()
+    phone = d_phone.get()
+    ssn = d_ssn.get()
+    city = d_city.get()
+    adr = d_adr.get()
+    zip = d_zip.get()
     review = d_review.get()
 
-    if (eID=="" or pID=="" or yearlySalary=="" or email=="" or review==""):
+    if (eID=="" or pID=="" or yearlySalary=="" or email=="" or phone=="" or ssn=="" or city=="" or adr=="" or zip==""):
         MessageBox.showinfo("Update Status", "All Fields are required")
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
@@ -210,6 +273,11 @@ def update(): #update personal info table
         d_pID.delete(0, 'end')
         d_yearlySalary.delete(0, 'end')
         d_email.delete(0, 'end')
+        d_phone.delete(0, 'end')
+        d_ssn.delete(0, 'end')
+        d_city.delete(0, 'end')
+        d_adr.delete(0, 'end')
+        d_zip.delete(0, 'end')
         d_review.delete(0, 'end')
         MessageBox.showinfo("Update Status", "Update Successfully")
         con.close()
@@ -227,6 +295,11 @@ def delete(): #delete in employee table
         d_pID.delete(0, 'end')
         d_yearlySalary.delete(0, 'end')
         d_email.delete(0, 'end')
+        d_phone.delete(0, 'end')
+        d_ssn.delete(0, 'end')
+        d_city.delete(0, 'end')
+        d_adr.delete(0, 'end')
+        d_zip.delete(0, 'end')
         d_review.delete(0, 'end')
         MessageBox.showinfo("Delete Status", "Deleted Successfully")
         con.close()
@@ -243,8 +316,12 @@ def get(): #retrieves personal info data
         for row in rows:
             d_yearlySalary.insert(0, row[2])
             d_email.insert(0, row[3])
-            d_review.insert(0, row[4])
-
+            d_phone.insert(0, row[4])
+            d_ssn.insert(0, row[5])
+            d_city.insert(0, row[6])
+            d_adr.insert(0, row[7])
+            d_zip.insert(0, row[8])
+            d_review.insert(0, row[9])
         con.close()
 
 root = Tk()
@@ -287,6 +364,30 @@ startTime.place(x=20, y=90)
 endTime = Label(top, text="End time:", font=('bold',14))
 endTime.place(x=20, y=120)
 
+schedule_create = Label(top, text="Schedule Creation:", font=('bold',14))
+schedule_create.place(x=20, y=150)
+
+mon = Label(top, text="Monday:", font=('bold',14))
+mon.place(x=20, y=180)
+
+tue = Label(top, text="Tuesday:", font=('bold',14))
+tue.place(x=20, y=210)
+
+wed = Label(top, text="Wednesday:", font=('bold',14))
+wed.place(x=20, y=240)
+
+thur = Label(top, text="Thursday:", font=('bold',14))
+thur.place(x=20, y=270)
+
+fri = Label(top, text="Friday:", font=('bold',14))
+fri.place(x=20, y=300)
+
+sat = Label(top, text="Saturday:", font=('bold',14))
+sat.place(x=20, y=330)
+
+sun = Label(top, text="Sunday:", font=('bold',14))
+sun.place(x=20, y=360)
+
 #entry and placement for employee ID variable in database
 e_eID = Entry(top)
 e_eID.place(x=150, y=30)
@@ -302,6 +403,30 @@ e_startTime.place(x=150, y=90)
 #entry and placement for endTime variable in database
 e_endTime = Entry(top)
 e_endTime.place(x=150, y=120)
+
+e_schedule_create = Entry(top)
+e_schedule_create.place(x=150, y=150)
+
+e_mon = Entry(top)
+e_mon.place(x=150, y=180)
+
+e_tue = Entry(top)
+e_tue.place(x=150, y=210)
+
+e_wed = Entry(top)
+e_wed.place(x=150, y=240)
+
+e_thur = Entry(top)
+e_thur.place(x=150, y=270)
+
+e_fri = Entry(top)
+e_fri.place(x=150, y=300)
+
+e_sat = Entry(top)
+e_sat.place(x=150, y=330)
+
+e_sun = Entry(top)
+e_sun.place(x=150, y=360)
 #end of entry and labels for employee tables==================
 
 #Start of company table entried and labels====================
@@ -349,8 +474,23 @@ yearlySalary.place(x=20, y=90)
 email = Label(bottom, text="Email:", font=('bold',14))
 email.place(x=20, y=120)
 
+phone = Label(bottom, text="Phone #:", font=('bold',14))
+phone.place(x=20, y=150)
+
+ssn = Label(bottom, text="SS#:", font=('bold',14))
+ssn.place(x=20, y=180)
+
+city = Label(bottom, text="City:", font=('bold',14))
+city.place(x=20, y=210)
+
+adr = Label(bottom, text="Address:", font=('bold',14))
+adr.place(x=20, y=240)
+
+zip = Label(bottom, text="Zip:", font=('bold',14))
+zip.place(x=20, y=270)
+
 review = Label(bottom, text="Review:", font=('bold',14))
-review.place(x=20, y=150)
+review.place(x=20, y=300)
 
 d_eID = Entry(bottom)
 d_eID.place(x=150, y=30)
@@ -364,8 +504,23 @@ d_yearlySalary.place(x=150, y=90)
 d_email = Entry(bottom)
 d_email.place(x=150, y=120)
 
+d_phone = Entry(bottom)
+d_phone.place(x=150, y=150)
+
+d_ssn = Entry(bottom)
+d_ssn.place(x=150, y=180)
+
+d_city = Entry(bottom)
+d_city.place(x=150, y=210)
+
+d_adr = Entry(bottom)
+d_adr.place(x=150, y=240)
+
+d_zip = Entry(bottom)
+d_zip.place(x=150, y=270)
+
 d_review = Entry(bottom)
-d_review.place(x=150, y=150)
+d_review.place(x=150, y=300)
 #end of personal info entries and labels=========================
 
 def company_tree():
@@ -392,26 +547,26 @@ def company_tree():
 
 #start of company table button from here==================================
 insertThree = Button(left_label, text="Insert", font=('italic',10), bg="white", command=insertThree)
-insertThree.place(x=20, y=190)
+insertThree.place(x=350, y=30)
 
 deleteThree = Button(left_label, text="Delete", font=('italic',10), bg="white", command=deleteThree)
-deleteThree.place(x=80, y=190)
+deleteThree.place(x=350, y=60)
 
 updateThree = Button(left_label, text="Update", font=('italic',10), bg="white", command=updateThree)
-updateThree.place(x=140, y=190)
+updateThree.place(x=350, y=90)
 
 getThree = Button(left_label, text="Get", font=('italic',10), bg="white", command=getThree)
-getThree.place(x=200, y=190)
+getThree.place(x=350, y=120)
 
 getCompany = Button(left_label, text="Company Data", font=('italic',10), bg="white", command=company_tree)
-getCompany.place(x=240, y=190)
+getCompany.place(x=350, y=150)
 #end company table button to here========================================
 
 #employee table displaying employee information within gui
 def employee_db():
     top = Tk()
     top.title("Employee Database")
-    trevEmp = ttk.Treeview(top,columns=(1,2,3,4), show="headings", height="20")
+    trevEmp = ttk.Treeview(top,columns=(1,2,3,4,5,6,7,8,9,10,11,12), show="headings", height="20")
     trevEmp.pack()
 
     #headings for each piece of info displayed
@@ -419,6 +574,16 @@ def employee_db():
     trevEmp.heading(1, text="Name")
     trevEmp.heading(3, text="Start Time")
     trevEmp.heading(4, text="End Time")
+    trevEmp.heading(5, text="Schedule Created")
+    trevEmp.heading(6, text="Monday")
+    trevEmp.heading(7, text="Tuesday")
+    trevEmp.heading(8, text="Wednesday")
+    trevEmp.heading(9, text="Thursday")
+    trevEmp.heading(10, text="Friday")
+    trevEmp.heading(11, text="Saturday")
+    trevEmp.heading(12, text="Sunday")
+
+
 
     #select for info being grabbed from database
     cursor.execute("SELECT * FROM Employee")
@@ -430,29 +595,29 @@ def employee_db():
 #start of employee table buttons from here=========================
 #insert data into database
 insertTwo = Button(top, text="Insert", font=('italic',10), bg="white", command=insertTwo)
-insertTwo.place(x=20, y=190)
+insertTwo.place(x=350, y=30)
 
 #delete information from database
 deleteTwo = Button(top, text="Delete", font=('italic',10), bg="white", command=deleteTwo)
-deleteTwo.place(x=80, y=190)
+deleteTwo.place(x=350, y=60)
 
 #update inforamtion from database
 updateTwo = Button(top, text="Update", font=('italic',10), bg="white", command=updateTwo)
-updateTwo.place(x=140, y=190)
+updateTwo.place(x=350, y=90)
 
 #gets information from database
 getTwo = Button(top, text="Get", font=('italic',10), bg="white", command=getTwo)
-getTwo.place(x=200, y=190)
+getTwo.place(x=350, y=120)
 
 getEmployee = Button(top, text="Employee Data", font=('italic',10), bg="white", command=employee_db)
-getEmployee.place(x=240, y=190)
+getEmployee.place(x=350, y=150)
 #employee table button to here====================================
 
 def pi_tree():
     bottom = Tk()
     bottom.title("Perosnal Information Database")
     #personal info table displaying information within gui
-    trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5), show="headings", height="20")
+    trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="20")
     trevPI.pack()
 
     #headings for each piece of info displayed
@@ -460,7 +625,12 @@ def pi_tree():
     trevPI.heading(2, text="Position ID")
     trevPI.heading(3, text="Salary")
     trevPI.heading(4, text="E-mail")
-    trevPI.heading(5, text="Review")
+    trevPI.heading(5, text="Phone")
+    trevPI.heading(6, text="SSN")
+    trevPI.heading(7, text="City")
+    trevPI.heading(8, text="Address")
+    trevPI.heading(9, text="Zip")
+    trevPI.heading(10, text="Review")
 
     #select for info being grabbed from database
     cursor.execute("SELECT * FROM PersonalInfo")
@@ -471,19 +641,19 @@ def pi_tree():
 
 #start of personal info table button from here=======================================
 insert = Button(bottom, text="Insert", font=('italic',10), bg="white", command=insert)
-insert.place(x=20, y=190)
+insert.place(x=350, y=30)
 
 update = Button(bottom, text="Update", font=('italic',10), bg="white", command=update)
-update.place(x=80, y=190)
+update.place(x=350, y=60)
 
 delete = Button(bottom, text="Delete", font=('italic',10), bg="white", command=delete)
-delete.place(x=140, y=190)
+delete.place(x=350, y=90)
 
 get = Button(bottom, text="Get", font=('italic',10), bg="white", command=get)
-get.place(x=200, y=190)
+get.place(x=350, y=120)
 
 getPI = Button(bottom, text="Personal Info Data", font=('italic',10), bg="white", command=pi_tree)
-getPI.place(x=240, y=190)
+getPI.place(x=350, y=150)
 #end of personal info table button from here=======================================
 
 #database displaying information within gui
