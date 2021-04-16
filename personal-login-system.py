@@ -10,10 +10,27 @@ import mysql.connector as mysql
 root = tk.Tk()
 root.title('Employee Login')
 root.geometry("400x300")
+#keep window from resizing 
 root.resizable(False,False)
 
 con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
 cursor = con.cursor()
+
+#def tree():
+    #database displaying information within gui
+#    trev2 = ttk.Treeview(root,columns=(1), show="headings", height="1")
+
+    #headings for each piece of info displayed
+#    trev2.heading(1, text="Days Employee Works")
+
+    #select for info being grabbed from database
+#    cursor.execute("SELECT COUNT mon, tue, wed, thur, fri, sat, sun FROM Employee WHERE mon = 'Y' or tue = 'Y' or wed = 'Y' or thur = 'Y' or sat = 'Y' or sun = 'Y'")
+#    rows = cursor.fetchall()
+
+#    for i in rows:
+#        trev2.insert('','end',values=i)
+
+#    trev2.pack()
 
 def user_login(tup):
     try:
@@ -22,6 +39,7 @@ def user_login(tup):
     except:
         return False
 
+#test user data to see if they can log in
 def login():
     data = {
         e_eID.get(),
@@ -31,6 +49,7 @@ def login():
     if e_eID.get() == "" or e_name.get() == "":
         MessageBox.showinfo("Login Failed", "Enter both username/password")
     else:
+        #grabs data from user login that gets the data with a select statement
         res = user_login(data)
         if res:
             MessageBox.showinfo("Login", "Login Successful")
@@ -40,6 +59,8 @@ def login():
             root = Tk()
             root.geometry("1000x500")
             root.title("User Information")
+
+            #tree()
 
             #database displaying information within gui
             trev = ttk.Treeview(root,columns=(1,2,3,4,5,6,7,8,9), show="headings", height="1")
@@ -68,6 +89,7 @@ def login():
             hsb.pack(fill=X,side=BOTTOM)
 
             trev.pack()
+
         else:
             MessageBox.showinfo("Alert", "Wrong username/password")
 

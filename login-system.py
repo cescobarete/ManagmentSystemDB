@@ -16,7 +16,7 @@ cursor = con.cursor()
 
 def user_login(tup):
     try:
-        cursor.execute("SELECT eID, name, privilege FROM Employee, Company WHERE eID='"+e_eID.get()+"' AND name='"+e_name.get()+"' AND privilege IN ('denied','granted')")
+        cursor.execute("SELECT Employee.eID, Employee.name, Company.privilege FROM Employee INNER JOIN PersonalInfo ON Employee.eID = PersonalInfo.eID INNER JOIN Company ON PersonalInfo.pID = Company.pID WHERE Employee.eID = '"+e_eID.get()+"' AND Employee.name = '"+e_name.get()+"' AND Company.privilege = 'granted'")
         return(cursor.fetchone())
     except:
         return False
@@ -53,6 +53,8 @@ e_eID.place(x=150, y=30)
 #entry and placement for name variable in database
 e_name = Entry()
 e_name.place(x=150, y=60)
+
+e_priv = Entry()
 
 loginButton = Button(root, text="Login", command=login)
 loginButton.place(x=20, y=100)
