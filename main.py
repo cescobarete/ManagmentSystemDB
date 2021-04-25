@@ -1,13 +1,35 @@
 import tkinter as tk
+
 import PyPDF2
 from PIL import Image, ImageTk
+
 import os
+
+import mysql.connector as mysql
+from mysql.connector import errorcode
 
 def open_manage():
     os.system('python3 login-system.py')
 
 def open_employee():
     os.system('python3 personal-login-system.py')
+
+con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
+cursor = con.cursor()
+
+#def executeScript(managmentDatabase):
+    #fd = open(managmentDatabase, 'r')
+    #sqlfile = fd.read()
+    #fd.close()
+    #sqlCommands = sqlfile.split(';')
+
+    #for command in sqlCommands:
+
+        #if command.strip() != '':
+            #cursor.execute(command)
+
+#executeScript('managmentDatabase.sql')
+#con.commit()
 
 root = tk.Tk()
 root.title('Desktop App')

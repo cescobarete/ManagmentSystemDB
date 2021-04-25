@@ -1,6 +1,9 @@
 import tkinter
 from tkinter import *
 from tkinter import ttk
+import datetime
+
+import os
 
 import tkinter.messagebox as MessageBox
 from tkinter.messagebox import askyesno
@@ -12,29 +15,35 @@ from mysql.connector import errorcode
 con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
 cursor = con.cursor()
 
+def openInstructions():
+    os.system('emacs help.txt')
+
 #insert data into company table
 def insertThree():
     pID = p_pID.get()
     position = p_position.get()
     privilege = p_privilege.get()
+    pswd = p_pswd.get()
     positionTaken = p_positionTaken.get()
+    pswd = p_pswd.get()
     directive = p_directive.get('1.0','end')
 
     answer = askyesno(title='Confirmation', message='Insert personal information?')
     if answer:
 
-        if (pID=="" or position=="" or positionTaken=="" or directive=="" or privilege==""): #needs these parameters to execute
+        if (pID=="" or position=="" or positionTaken=="" or pswd=="" or directive=="" or privilege==""): #needs these parameters to execute
             MessageBox.showinfo("Insert Status", "All Fields are required")
         else:
             con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
             cursor = con.cursor()
-            cursor.execute("INSERT INTO Company VALUES('"+pID+"','"+position+"','"+privilege+"','"+positionTaken+"','"+directive+"')")
+            cursor.execute("INSERT INTO Company VALUES('"+pID+"','"+position+"','"+privilege+"',MD5('"+pswd+"'),'"+positionTaken+"','"+directive+"')")
             cursor.execute("commit")
 
             p_pID.delete(0, 'end')
             p_position.delete(0, 'end')
             p_privilege.delete(0, 'end')
             p_positionTaken.delete(0, 'end')
+            p_pswd.delete(0, 'end')
             p_directive.delete('1.0', 'end')
             MessageBox.showinfo("Insert Status", "Inserted Successfully")
             con.close()
@@ -58,6 +67,7 @@ def deleteThree():
             p_position.delete(0, 'end')
             p_privilege.delete(0, 'end')
             p_positionTaken.delete(0, 'end')
+            p_pswd.delete(0, 'end')
             p_directive.delete('1.0', 'end')
             MessageBox.showinfo("Delete Status", "Deleted Successfully")
             con.close()
@@ -70,6 +80,7 @@ def updateThree():
     position = p_position.get()
     privilege = p_privilege.get()
     positionTaken = p_positionTaken.get()
+    pswd = p_pswd.get()
     directive = p_directive.get('1.0','end')
 
     answer = askyesno(title='Confirmation', message='Update personal information?')
@@ -80,13 +91,14 @@ def updateThree():
         else:
             con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
             cursor = con.cursor()
-            cursor.execute("UPDATE Company SET position='"+position+"', privilege='"+privilege+"', positionTaken='"+positionTaken+"', directive='"+directive+"' WHERE pID='"+pID+"'")
+            cursor.execute("UPDATE Company SET position='"+position+"', privilege='"+privilege+"', pswd=MD5('"+pswd+"'), positionTaken='"+positionTaken+"', directive='"+directive+"' WHERE pID='"+pID+"'")
             cursor.execute("commit")
 
             p_pID.delete(0, 'end')
             p_position.delete(0, 'end')
             p_privilege.delete(0, 'end')
             p_positionTaken.delete(0, 'end')
+            p_pswd.delete(0, 'end')
             p_directive.delete('1.0', 'end')
             MessageBox.showinfo("Update Status", "Update Successfully")
             con.close()
@@ -99,7 +111,7 @@ def getThree():
     else:
         con = mysql.connect(host="localhost", user="ms_user", password="manageuser", database="ManageEmp")
         cursor = con.cursor()
-        cursor.execute("SELECT * FROM Company WHERE pID='"+p_pID.get()+"'")
+        cursor.execute("SELECT pID, position, privilege, positionTaken, directive FROM Company WHERE pID='"+p_pID.get()+"'")
         rows = cursor.fetchall()
 
         #inserts each parameter into each text input box from get
@@ -386,6 +398,13 @@ def get():
             d_review.insert('1.0', row[9])
         con.close()
 
+#now = datetime.datetime.now()
+#seconds = now.second
+
+#def refresh():
+    #root.destroy()
+    #execfile("manage-data.py",globals())
+
 #root window
 root = Tk()
 #Size of root window
@@ -509,8 +528,11 @@ privilege.place(x=20, y=120)
 positionTaken = Label(left_label, text="Taken(yes/no):", font=('bold',14))
 positionTaken.place(x=20, y=90)
 
+pswd = Label(left_label, text="Password:", font=('bold',14))
+pswd.place(x=20, y=150)
+
 directive = Label(left_label, text="Directive:", font=('bold',14))
-directive.place(x=20, y=150)
+directive.place(x=20, y=180)
 
 p_pID = Entry(left_label)
 p_pID.place(x=150, y=30)
@@ -524,8 +546,11 @@ p_privilege.place(x=150, y=120)
 p_positionTaken = Entry(left_label)
 p_positionTaken.place(x=150, y=90)
 
-p_directive = Text(left_label, width=25, height=10)
-p_directive.place(x=152, y=150)
+p_pswd = Entry(left_label)
+p_pswd.place(x=150,y=150)
+
+p_directive = Text(left_label, width=35, height=10)
+p_directive.place(x=152, y=180)
 #end of company table============================================================
 
 #Start of personal info entries and labels=======================================
@@ -586,7 +611,7 @@ d_adr.place(x=150, y=240)
 d_zip = Entry(bottom)
 d_zip.place(x=150, y=270)
 
-d_review = Text(bottom, width=25, height=10)
+d_review = Text(bottom, width=35, height=10)
 d_review.place(x=152, y=300)
 #end of personal info entries and labels=========================================
 
@@ -607,7 +632,7 @@ def company_tree():
     trevComp.heading(5, text="Directive")
 
     #select for info being grabbed from database
-    cursor.execute("SELECT * FROM Company")
+    cursor.execute("SELECT pID, position, privilege, positionTaken, directive FROM Company")
     rows = cursor.fetchall()
 
     for i in rows:
@@ -684,23 +709,24 @@ def pi_tree():
     bottom = Tk()
     bottom.title("Perosnal Information Database")
     #personal info table displaying information within gui
-    trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="20")
+    trevPI = ttk.Treeview(bottom,columns=(1,2,3,4,5,6,7,8,9,10,11), show="headings", height="20")
     trevPI.pack()
 
     #headings for each piece of info displayed
-    trevPI.heading(1, text="Employee ID")
-    trevPI.heading(2, text="Position ID")
-    trevPI.heading(3, text="Salary")
-    trevPI.heading(4, text="E-mail")
-    trevPI.heading(5, text="Phone")
-    trevPI.heading(6, text="SSN")
-    trevPI.heading(7, text="City")
-    trevPI.heading(8, text="Address")
-    trevPI.heading(9, text="Zip")
-    trevPI.heading(10, text="Review")
+    trevPI.heading(1, text="Name")
+    trevPI.heading(2, text="Employee ID")
+    trevPI.heading(3, text="Position ID")
+    trevPI.heading(4, text="Salary")
+    trevPI.heading(5, text="E-mail")
+    trevPI.heading(6, text="Phone")
+    trevPI.heading(7, text="SSN")
+    trevPI.heading(8, text="City")
+    trevPI.heading(9, text="Address")
+    trevPI.heading(10, text="Zip")
+    trevPI.heading(11, text="Review")
 
     #select for info being grabbed from database
-    cursor.execute("SELECT * FROM PersonalInfo")
+    cursor.execute("SELECT name, PersonalInfo.eID, pID, yearlySalary, email, phone, ssn, city, adr, zip, review FROM Employee, PersonalInfo WHERE Employee.eID = PersonalInfo.eID")
     rows = cursor.fetchall()
 
     for i in rows:
@@ -764,5 +790,10 @@ trev.configure(yscrollcommand=hsb.set)
 hsb.pack(fill=Y,side=RIGHT)
 
 trev.pack()
+
+label = Label(root)
+button = Button(root, text="Help",command=openInstructions)
+label.pack()
+button.pack()
 
 root.mainloop()
